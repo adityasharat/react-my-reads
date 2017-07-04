@@ -8648,3 +8648,13 @@ input[type=checkbox]:disabled:checked:after {
 .carousel-caption h6 {
   color: inherit
 }
+
+.float-right {
+  float: right!important;
+}
+
+.search-icon {
+  color: #fff;
+  font-size: 26px;
+  padding: 5px 15px 5px 0;
+}

@@ -1,7 +1,9 @@
 import React from 'react';
 import * as BooksAPI from './BooksAPI';
 import './App.css';
+import { Route } from 'react-router-dom';
 import { Toolbar } from './Toolbar.js';
+import { Library } from './Library.js';
 
 class BooksApp extends React.Component {
   state = {
@@ -9,8 +11,16 @@ class BooksApp extends React.Component {
 
   render() {
     return (
-      <div className="app">
-        <Toolbar/>
+      <div>
+        <Route path="/" render={() => {
+          return (
+            <div>
+              <Toolbar/>
+              <Library/>
+            </div>
+          )
+        }}
+        />
       </div>
     );
   }
