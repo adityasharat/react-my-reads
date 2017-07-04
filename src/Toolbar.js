@@ -5,7 +5,7 @@ class Toolbar extends React.Component {
   render() {
     return (<nav className="navbar navbar-inverse nav-shadow">
               <div className="container-fluid">
-                <a className="navbar-brand" href="/">My Reads</a>
+                <a className="navbar-brand title" href="/">My Reads</a>
 
                 {this.props.isSearchEnabled && <input type="text"
                   onChange={(e) => this.props.appInterface.search.onQueryChange(e.target.value)}
