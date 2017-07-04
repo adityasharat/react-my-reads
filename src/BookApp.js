@@ -9,24 +9,46 @@ class BooksApp extends React.Component {
   state = {
     query: '',
     books: []
+  }
+
+  onQueryChange(query) {
+    this.setState({ query });
+  }
+
+  getQuery() {
+    return this.state.query;
   };
+
+  interface = {
+    search: {
+      onQueryChange : this.onQueryChange.bind(this),
+      getQuery : this.getQuery.bind(this)
+    }
+  }
 
   componentDidMount() {
     BooksAPI.getAll()
       .then((books) => {
-        console.error(books);
         this.setState({ books });
       });
   }
 
+  componentDidUpdate(props, state) {
+    if (this.state.query && this.state.query !== state.query) {
+      BooksAPI.search(this.state.query, 50)
+        .then((books) => {
+          this.setState({ books });
+        });
+    }
+  }
+
   render() {
-    console.log(this.state);
     return (
       <div>
-        <Route path="/" render={() => {
+        <Route path="/" render={({location}) => {
           return (
             <div>
-              <Toolbar/>
+              <Toolbar appInterface={this.interface} isSearchEnabled={location.pathname.startsWith('/search')}/>
               <Library books={this.state.books}/>
             </div>
           )

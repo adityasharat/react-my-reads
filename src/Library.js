@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 class Library extends React.Component {
   render() {
-    console.log(this.props);
     return (
       <div>
         <ul>

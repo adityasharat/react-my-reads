@@ -8649,8 +8649,14 @@ input[type=checkbox]:disabled:checked:after {
   color: inherit
 }
 
+
+/* Books App Styles */
 .float-right {
   float: right!important;
+}
+
+.nav-shadow {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 .search-icon {
