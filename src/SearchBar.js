@@ -7,7 +7,7 @@ class SearchBar extends React.Component {
       <div className="search-books-bar">
         <Link className="close-search" to="/"/>
         <div className="search-books-input-wrapper">
-            <input type="text" onChange={(e) => this.props.appInterface.search.onQueryChange(e.target.value)}
+            <input type="text" onChange={(e) => this.props.appInterface.search.onQueryChange(e.target.value.trim())}
                    value={this.props.appInterface.search.getQuery()}/>
         </div>
       </div>

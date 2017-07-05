@@ -40,7 +40,13 @@ class BooksApp extends React.Component {
     if (this.state.query && this.state.query !== state.query) {
       BooksAPI.search(escapeStringRegexp(this.state.query), 50)
         .then((books) => {
-          this.setState({ books });
+          if (typeof books === 'array') {
+            this.setState({ books });
+          } else {
+            this.setState({
+              books: []
+            })
+          }
         });
     }
   }
