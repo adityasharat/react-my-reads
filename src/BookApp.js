@@ -1,9 +1,12 @@
 import React from 'react';
 import * as BooksAPI from './BooksAPI';
+import escapeStringRegexp from 'escape-string-regexp';
 import './BookApp.css';
 import { Route } from 'react-router-dom';
 import { Toolbar } from './Toolbar.js';
 import { Library } from './Library.js';
+import { SearchBar } from './SearchBar.js';
+import { Link } from 'react-router-dom';
 
 class BooksApp extends React.Component {
   state = {
@@ -35,7 +38,7 @@ class BooksApp extends React.Component {
 
   componentDidUpdate(props, state) {
     if (this.state.query && this.state.query !== state.query) {
-      BooksAPI.search(this.state.query, 50)
+      BooksAPI.search(escapeStringRegexp(this.state.query), 50)
         .then((books) => {
           this.setState({ books });
         });
@@ -44,16 +47,19 @@ class BooksApp extends React.Component {
 
   render() {
     return (
-      <div>
-        <Route path="/" render={({location}) => {
-          return (
-            <div>
-              <Toolbar appInterface={this.interface} isSearchEnabled={location.pathname.startsWith('/search')}/>
-              <Library books={this.state.books}/>
-            </div>
-          )
-        }}
-        />
+      <div className="app">
+        <Route exact path="/" render={() => {
+          return (<Toolbar/>)
+        }}/>
+        <Route path="/search" render={() => {
+          return (<SearchBar appInterface={this.interface}/>)
+        }}/>
+        <Library className="search-books-results" books={this.state.books}/>
+        <div className = "open-search">
+          <Link to="/search" className="search-icon float-right">
+            <i className="fa fa-plus-circle" aria-hidden="true"/>
+          </Link>
+        </div>
       </div>
     );
   }
