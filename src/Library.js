@@ -9,47 +9,62 @@ SHELVES[CURRENTLY_READING] = 'Currently Reading';
 SHELVES[WANT_TO_READ] = 'Want to Read';
 SHELVES[READ] = 'Read';
 
+function Book(props) {
+  return (
+    <li>{props.book.title}</li>
+  );
+}
+
+function Shelf(props) {
+  return (
+     <div className="bookshelf-wrapper">
+      <h2 className="bookshelf-title">{props.shelf.title}</h2>
+      <div className="bookshelf">
+        <div className="bookshelf-books">
+          <ol className="books-grid">
+            {props.shelf.books.map((book) => {
+              return (<Book key={book.id} book={book}/>);
+            })}
+          </ol>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 class Library extends React.Component {
 
-  render() {
-
+  getCollection(books) {
     let shelves = {};
 
     Object.keys(SHELVES).forEach((key) => {
       shelves[key] =  {
+        id: key,
         title: SHELVES[key],
         books: []
       }
     });
 
-    this.props.books.forEach((book) => {
+    books.forEach((book) => {
       let shelf = book.shelf;
       if (shelves[shelf]) {
         shelves[shelf].books.push(book);
       }
     });
 
-    let collection = Object.keys(shelves).map((key) => {
+    return Object.keys(shelves).map((key) => {
       return shelves[key];
     });
+  }
+
+  render() {
+
+    let collection = this.getCollection(this.props.books);
 
     return (
       <div className="list-books-content">
         {collection.map((shelf) => {
-          return (
-            <div className="bookshelf-wrapper">
-              <h2 className="bookshelf-title">{shelf.title}</h2>
-              <div className="bookshelf">
-                <div className="bookshelf-books">
-                  <ol className="books-grid">
-                    {shelf.books.map((book) => {
-                      return (<li key={book.id}>{book.title}</li>);
-                    })}
-                  </ol>
-                </div>
-              </div>
-            </div>
-          );
+          return <Shelf key={shelf.id}  shelf={shelf}/>
         })}
       </div>
     );
