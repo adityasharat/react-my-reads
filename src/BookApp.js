@@ -4,7 +4,7 @@ import escapeStringRegexp from 'escape-string-regexp';
 import './BookApp.css';
 import { Route } from 'react-router-dom';
 import { Toolbar } from './Toolbar.js';
-import { Library } from './Library.js';
+import { Library, SearchResults } from './Library.js';
 import { SearchBar } from './SearchBar.js';
 import { Link } from 'react-router-dom';
 
@@ -55,17 +55,27 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         <Route exact path="/" render={() => {
-          return (<Toolbar/>)
+          return (
+            <div>
+              <Toolbar/>
+              <Library className="search-books-results" books={this.state.books}/>
+              <div className = "open-search">
+                <Link to="/search" className="search-icon float-right">
+                  <i className="fa fa-plus-circle" aria-hidden="true"/>
+                </Link>
+              </div>
+            </div>
+          )
         }}/>
         <Route path="/search" render={() => {
-          return (<SearchBar appInterface={this.interface}/>)
+          return (
+              <div>
+                <SearchBar appInterface={this.interface}/>
+                <SearchResults className="search-books-results" books={this.state.books}/>
+              </div>
+            )
         }}/>
-        <Library className="search-books-results" books={this.state.books}/>
-        <div className = "open-search">
-          <Link to="/search" className="search-icon float-right">
-            <i className="fa fa-plus-circle" aria-hidden="true"/>
-          </Link>
-        </div>
+
       </div>
     );
   }

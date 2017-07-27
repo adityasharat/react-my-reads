@@ -32,43 +32,61 @@ function Shelf(props) {
   );
 }
 
-class Library extends React.Component {
+function getCollection(books) {
+  let shelves = {};
 
-  getCollection(books) {
-    let shelves = {};
-
-    Object.keys(SHELVES).forEach((key) => {
-      shelves[key] =  {
+  Object
+    .keys(SHELVES)
+    .forEach((key) => {
+      shelves[key] = {
         id: key,
         title: SHELVES[key],
         books: []
       }
     });
 
-    books.forEach((book) => {
-      let shelf = book.shelf;
-      if (shelves[shelf]) {
-        shelves[shelf].books.push(book);
-      }
-    });
+  books.forEach((book) => {
+    let shelf = book.shelf;
+    if (shelves[shelf]) {
+      shelves[shelf]
+        .books
+        .push(book);
+    }
+  });
 
-    return Object.keys(shelves).map((key) => {
+  return Object
+    .keys(shelves)
+    .map((key) => {
       return shelves[key];
     });
-  }
-
-  render() {
-
-    let collection = this.getCollection(this.props.books);
-
-    return (
-      <div className="list-books-content">
-        {collection.map((shelf) => {
-          return <Shelf key={shelf.id}  shelf={shelf}/>
-        })}
-      </div>
-    );
-  }
 }
 
-export { Library };
+function Library(props) {
+  let collection = getCollection(props.books);
+  return (
+    <div className="list-books-content">
+      {collection.map((shelf) => {
+        return <Shelf key={shelf.id}  shelf={shelf}/>
+      })}
+    </div>
+  );
+}
+
+function SearchResults(props) {
+  console.log(props.books);
+  return (
+    <div className="list-books-content">
+      <div className="bookshelf">
+        <div className="bookshelf-books">
+          <ol className="books-grid">
+            {props.books.map((book) => {
+              return (<Book key={book.id} book={book}/>);
+            })}
+          </ol>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export { Library, SearchResults };
