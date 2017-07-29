@@ -28,13 +28,13 @@ function Book(props) {
         <h3 className="book-title">{book.title}</h3>
         {book.authors && <h4 className="book-authors">{book.authors.join(', ')}</h4>}
         {book.description && <p className="book-description">{book.description.substring(0, MAX_DESC_CHARS) + '...'}</p>}
-        <select onChange={ (e)=> {
+        <select value={book.shelf} onChange={ (e)=> {
             let shelf = e.currentTarget.value;
             props.appInterface.update({ id: book.id }, shelf);
           }}>
           {
             shelves.map((shelf) => {
-              return (<option key={shelf.id} value={shelf.id} selected={shelf.id == book.shelf}>{shelf.text}</option>);
+              return (<option key={shelf.id} value={shelf.id}>{shelf.text}</option>);
             })
           }
         </select>

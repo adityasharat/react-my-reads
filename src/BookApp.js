@@ -11,7 +11,8 @@ import { Link } from 'react-router-dom';
 class BooksApp extends React.Component {
   state = {
     query: '',
-    books: []
+    books: [],
+    results: []
   }
 
   onQueryChange(query) {
@@ -25,7 +26,14 @@ class BooksApp extends React.Component {
   update(book, shelf) {
     BooksAPI.update(book, shelf)
       .then((response) => {
-        console.log(response);
+        this.fetchBooks();
+      });
+  }
+
+  fetchBooks() {
+    BooksAPI.getAll()
+      .then((books) => {
+        this.setState({ books });
       });
   }
 
@@ -38,10 +46,7 @@ class BooksApp extends React.Component {
   }
 
   componentDidMount() {
-    BooksAPI.getAll()
-      .then((books) => {
-        this.setState({ books });
-      });
+    this.fetchBooks();
   }
 
   componentDidUpdate(props, state) {
@@ -49,10 +54,10 @@ class BooksApp extends React.Component {
       BooksAPI.search(escapeStringRegexp(this.state.query), 50)
         .then((books) => {
           if (books instanceof Array) {
-            this.setState({ books });
+            this.setState({ results: books });
           } else {
             this.setState({
-              books: []
+              results: []
             })
           }
         });
@@ -79,7 +84,7 @@ class BooksApp extends React.Component {
           return (
               <div>
                 <SearchBar appInterface={this.interface}/>
-                <SearchResults className="search-books-results" books={this.state.books} appInterface={this.interface}/>
+                <SearchResults className="search-books-results" books={this.state.results} appInterface={this.interface}/>
               </div>
             )
         }}/>
