@@ -25,14 +25,14 @@ body,
 
 .list-books-title h1 {
   font-weight: 400;
-  font-size: 1.25em;
+  font-size: 2em;
   margin: 0;
   padding: 1px;
   color: white;
 }
 
 .list-books-content {
-  padding: 0 0 80px;
+  padding: 0 2% 80px 2%;
   flex: 1;
 }
 
