@@ -22,11 +22,19 @@ class BooksApp extends React.Component {
     return this.state.query;
   };
 
+  update(book, shelf) {
+    BooksAPI.update(book, shelf)
+      .then((response) => {
+        console.log(response);
+      });
+  }
+
   interface = {
     search: {
       onQueryChange : this.onQueryChange.bind(this),
       getQuery : this.getQuery.bind(this)
-    }
+    },
+    update: this.update.bind(this)
   }
 
   componentDidMount() {
@@ -40,8 +48,6 @@ class BooksApp extends React.Component {
     if (this.state.query && this.state.query !== state.query) {
       BooksAPI.search(escapeStringRegexp(this.state.query), 50)
         .then((books) => {
-          console.info(typeof books);
-          console.info(books);
           if (books instanceof Array) {
             this.setState({ books });
           } else {
@@ -60,7 +66,7 @@ class BooksApp extends React.Component {
           return (
             <div>
               <Toolbar/>
-              <Library className="search-books-results" books={this.state.books}/>
+              <Library className="search-books-results" books={this.state.books} appInterface={this.interface}/>
               <div className = "open-search">
                 <Link to="/search" className="search-icon float-right">
                   <i className="fa fa-plus-circle" aria-hidden="true"/>
@@ -73,7 +79,7 @@ class BooksApp extends React.Component {
           return (
               <div>
                 <SearchBar appInterface={this.interface}/>
-                <SearchResults className="search-books-results" books={this.state.books}/>
+                <SearchResults className="search-books-results" books={this.state.books} appInterface={this.interface}/>
               </div>
             )
         }}/>

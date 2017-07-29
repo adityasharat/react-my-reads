@@ -135,16 +135,25 @@ body,
 }
 
 .book {
-  width: 140px;
+  width: 240px;
+}
+
+.book img {
+  width: 100%;
 }
 
 .book-title,
-.book-authors {
+.book-authors,
+.book-description {
   font-size: 0.8em;
 }
 
+.book-authors {
+  margin: 0;
+}
+
 .book-title {
-  margin-top: 10px;
+  margin: 10px 0 0 0;
 }
 
 .book-authors {
