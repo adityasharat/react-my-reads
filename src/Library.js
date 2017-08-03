@@ -30,7 +30,7 @@ function Book(props) {
         {book.description && <p className="book-description">{book.description.substring(0, MAX_DESC_CHARS) + '...'}</p>}
         <select value={book.shelf} onChange={ (e)=> {
             let shelf = e.currentTarget.value;
-            props.appInterface.update({ id: book.id }, shelf);
+            props.appInterface.update(book, shelf);
           }}>
           {
             shelves.map((shelf) => {

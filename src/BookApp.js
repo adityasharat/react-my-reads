@@ -26,6 +26,7 @@ class BooksApp extends React.Component {
   update(book, shelf) {
     // check if the current shelf != new shelf
     if (book.shelf !== shelf) {
+      book.shelf = shelf;
       BooksAPI.update(book, shelf)
         .then(() => {
           this.setState(state => ({
@@ -40,6 +41,20 @@ class BooksApp extends React.Component {
       .then((books) => {
         this.setState({ books });
       });
+  }
+
+  fixSearchResults(results) {
+    let books = this.state.books;
+
+    results.forEach((result) => {
+      let book = books.find(book => book.id === result.id);
+      if (book) {
+        result.shelf = book.shelf;
+      } else {
+        result.shelf = 'none';
+      }
+    });
+    return results;
   }
 
   interface = {
@@ -59,7 +74,7 @@ class BooksApp extends React.Component {
       BooksAPI.search(escapeStringRegexp(this.state.query), 50)
         .then((books) => {
           if (books instanceof Array) {
-            this.setState({ results: books });
+            this.setState({ results: this.fixSearchResults(books) });
           } else {
             this.setState({
               results: []
